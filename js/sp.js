@@ -3,16 +3,22 @@
 function labcode(data, x_var, y_var, sp_svg, tooltip) {
 
   //Task 5.1.1  -- Create the x-axis
-  var x
+  var x = d3.scaleLinear()
+    .domain([d3.min(x_var), d3.max(x_var)])
+    .range([0, width]);
 
   //Task 5.1.2  -- Append the axes to the svg
-  var xAxis
+  var xAxis = sp_svg
+    .append('g')
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
 
   //Task 5.1.3  -- Create y-axis
   var y
 
   // Task 5.1.4 -- Append the axis to svg
   var yAxis
+
 
   // Task 5.1.5 -- Append circles to svg
   var myCircles 
@@ -21,7 +27,7 @@ function labcode(data, x_var, y_var, sp_svg, tooltip) {
 
 
   // Task 5.1.7 -- Adding hovering
-
+  
 
   return [x, xAxis, y, yAxis, myCircles];
 }

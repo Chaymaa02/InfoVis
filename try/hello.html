@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Apply specific style to the elements that have the class `inGreen` -->
+<style>
+    .inGreen { color: green; }
+</style>
+
+<!-- Add a title. Note that the class 'inGreen' is given to this title -->
+<h2 class="inGreen">First html document</h2>
+  
+<!-- Add a title -->
+<h1>First html document</h1>
+
+<!-- Add a bit of text -->
+<p>This is my first sentence</p>
+
+<!-- Add a link -->
+<p>This is <a href="https://www.d3-graph-gallery.com">a link to the d3 graph gallery</a></p>
+
+<!-- Add a svg shape -->
+<svg>
+    <circle class="target" style="fill: #53a391" stroke="black" cx=50 cy=50 r=40></circle>
+</svg>
+
+<!-- Add a svg area, empty -->
+
+  
+<!-- Add a svg area, empty -->
+<div id="scatter_area"></div>
+
+
+<script>
+d3
+    .select(".target")  // select the elements that have the class 'target'
+    .style("stroke-width", 8) // change their style: stroke width is not equal to 8 pixels
+    .style("opacity", 0.2)
+</script>
+
+
+
+<script>
+
+  // set the dimensions and margins of the graph
+  var margin = {top: 10, right: 40, bottom: 30, left: 30},
+      width = 450 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+  
+  // append the svg object to the body of the page
+  var svG = d3.select("#scatter_area")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+  
+  // Create data
+  var data = [ {x:10, y:20}, {x:40, y:90}, {x:80, y:50} ]
+  
+  // X scale and Axis
+  var x = d3.scaleLinear()
+      .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
+      .range([0, width]);       // This is the corresponding value I want in Pixel
+  svG
+    .append('g')
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+  
+  // X scale and Axis
+  var y = d3.scaleLinear()
+      .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
+      .range([height, 0]);       // This is the corresponding value I want in Pixel
+  svG
+    .append('g')
+    .call(d3.axisLeft(y));
+  
+  // Add 3 dots for 0, 50 and 100%
+  svG
+    .selectAll("whatever")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function(d){ return x(d.x) })
+      .attr("cy", function(d){ return y(d.y) })
+      .attr("r", 7)
+  
+  
+  </script>
+
+
+<script src="hell.js"></script>
+
