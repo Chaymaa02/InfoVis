@@ -52,20 +52,46 @@ function pc(data) {
 	extents = dimensions.map(function (p) { return [0, 0]; });
 
 	// Task 5.2.1 -- Drawing the Lines
-	var foreground
+	var foreground = pc_svg
+		.append("g")
+		.attr("class", "foreground")
+		.selectAll("path")
+		.data(data)
+		.enter()
+		.append("path")
+		.attr("d", path);
 
 	// Task 5.2.2 -- Drawing Axes
-	var axes
-
+	var axes = pc_svg
+		.selectAll(".dimension")
+		.data(dimensions)
+		.enter()
+		.append("g")
+		.attr("class", "dimension axis")
+		.attr("transform",  function(d) {return "translate(" + x(d) + ")";})
+		.each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); });
 	
 	// 5.2.3 -- Appending Axes Titles
-
+	axes.append("text")
+		.attr("text-anchor", "middle")
+		.attr("y", -9)
+		.attr("fill", "black")
+		.text(function(d) { return d; })
 
 	// 5.2.4 -- Brushing the axes
-
+	axes.append("g")
+		.attr("class", "brush")
+		.each(function(d) { d3.select(this).call(perAxisBrush(d)); })
+		.selectAll("rect")
+		.attr("x", -8)
+		.attr("width", 10);
 	
 	// 5.2.5 -- Dragging the Axes
-
+	axes.call(d3.drag()
+		.subject(function(d) {return {x: x(d)};})
+		.on('start', startDrag)
+		.on('drag', drag)
+		.on('end', endDrag))
 
 	/** Computer Exercise ends here  */
 
